@@ -7,7 +7,8 @@ The rules work like `borg prune` / `restic forget`, so if you already know those
 - **Dry run by default.** It prints what it would keep and why, and only deletes with `--apply`.
 - Refuses a policy that would keep nothing.
 - Never deletes directories.
-- Reads the time from the file name (`2026-11-23_04-00-00`, `20261123-040012`, `2026-11-23T04:30`...), and falls back to the modification time.
+- Reads the time from the file name (`2026-11-23_04-00-00`, `20261123-040012`, `2026-11-23T04:30`, vzdump's `2026_11_23-04_00_12`...), and falls back to the modification time.
+- Keeps Proxmox vzdump's `.log` and `.notes` files with their archive: they are kept or deleted together, never counted as backups of their own.
 
 Python 3.11+, standard library only.
 
@@ -21,11 +22,11 @@ backup-prune /var/lib/vz/dump --pattern 'vzdump-qemu-105-*' \
 ```
 
 ```
-keep    vzdump-qemu-105-20261123-040012.vma.zst  (daily 2026-11-23, weekly 2026-W48, monthly 2026-11)
-keep    vzdump-qemu-105-20261122-040012.vma.zst  (daily 2026-11-22, weekly 2026-W47)
-keep    vzdump-qemu-105-20261121-040012.vma.zst  (daily 2026-11-21)
-keep    vzdump-qemu-105-20261031-040012.vma.zst  (monthly 2026-10)
-delete  vzdump-qemu-105-20261120-040012.vma.zst
+keep    vzdump-qemu-105-2026_11_23-04_00_12.vma.zst  (daily 2026-11-23, weekly 2026-W48, monthly 2026-11)
+keep    vzdump-qemu-105-2026_11_22-04_00_12.vma.zst  (daily 2026-11-22, weekly 2026-W47)
+keep    vzdump-qemu-105-2026_11_21-04_00_12.vma.zst  (daily 2026-11-21)
+keep    vzdump-qemu-105-2026_10_31-04_00_12.vma.zst  (monthly 2026-10)
+delete  vzdump-qemu-105-2026_11_20-04_00_12.vma.zst
 ...
 4 kept, 37 to delete, 0.0 MB freed
 dry run, re-run with --apply to delete
